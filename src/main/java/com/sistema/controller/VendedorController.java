@@ -33,14 +33,14 @@ public class VendedorController {
     @GetMapping
     public ResponseEntity<?> Vendedor(){
         Map<String, Object> response = new HashMap<>();
-        this.logger.debug("inica consulta");
+        this.logger.debug("inica consulta para vendedor");
         try{
             List<Vendedor> vendedors =  this.iVendedorServ.findAll();
             if(vendedors == null && vendedors.isEmpty()){
                 logger.warn("No existe registro de entidad");
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }else {
-                logger.info("se ejecuta la consulta");
+                logger.info("se ejecuta la consulta para vendedor ");
                 return new ResponseEntity<List<Vendedor>>(vendedors, HttpStatus.OK);
             }
         }catch (CannotCreateTransactionException e){
@@ -67,12 +67,12 @@ public class VendedorController {
         }
         try{
             Vendedor vendedor = new Vendedor();
-            vendedor.setIdVendedor(value.getIdVendedor());
-            vendedor.setNombre(value.getNombre());
-            vendedor.setApellido(value.getApellido());
-            vendedor.setEmail(value.getEmail());
-            vendedor.setIdSupervisor(vendedor.getIdSupervisor());
-            vendedor.setIdRegion(value.getIdRegion());
+            vendedor.setId_vendedor(value.getId_vendedor());
+            vendedor.setNombre_vendedor(value.getNombre_vendedor());
+            vendedor.setApellido_vendedor(value.getApellido_vendedor());
+            vendedor.setEmail_vendedor(value.getEmail_vendedor());
+            vendedor.setId_supervisor(vendedor.getId_supervisor());
+            vendedor.setId_region(value.getId_region());
             this.iVendedorServ.save(vendedor);
             logger.info("Se acaba de agregar nuevo vendedor");
             response.put("mensaje", "Una nuevo vendedor se ingreso");

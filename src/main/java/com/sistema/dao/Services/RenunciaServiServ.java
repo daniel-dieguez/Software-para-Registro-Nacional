@@ -1,6 +1,5 @@
 package com.sistema.dao.Services;
 
-import com.sistema.dao.IRegionDao;
 import com.sistema.dao.IRenunciaDAO;
 import com.sistema.modals.modal.Renuncia;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class RenunciaServi implements IRenunciaImpl{
+public class RenunciaServiServ implements IRenunciaServImpl {
 
     @Autowired
     private IRenunciaDAO iRenunciaDAO;

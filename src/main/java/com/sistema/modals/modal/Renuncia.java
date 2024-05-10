@@ -8,22 +8,25 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.apachecommons.CommonsLog;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Table(name = "Renunca")
+@Table(name = "renuncia")
 @Entity
 public class Renuncia {
 
     @Id
-    @Column(name = "idRenuncia")
-    private String idRenuncia;
-    @Column(name = "idVendedor")
-    private String idVendedor;
-    @Column(name = "Fecha")
-    private String Fecha;
-    @Column(name = "Motivo")
-    private String Motivo;
+    @Column(name = "id_renuncia")
+    private int id_renuncia;
+    @Column(name = "id_vendedor")
+    private int id_vendedor;
+    @Column(name = "fecha")
+    private Date fecha;
+    @Column(name = "motivo")
+    private String motivo;
 
 }

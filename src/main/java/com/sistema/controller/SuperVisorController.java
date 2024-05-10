@@ -1,9 +1,7 @@
 package com.sistema.controller;
 
-import com.sistema.dao.Services.ISuperVisorImpl;
-import com.sistema.dao.Services.SuperVisorServ;
+import com.sistema.dao.Services.ISuperVisorSerImpl;
 import com.sistema.modals.modal.SuperVisor;
-import com.sistema.modals.modal.Vendedor;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,12 +19,12 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(value = "/SuperVisor")
+@RequestMapping(value = "/supervisor")
 public class SuperVisorController {
 
 
     @Autowired
-    private ISuperVisorImpl iSuperVisorImpl;
+    private ISuperVisorSerImpl iSuperVisorSerImpl;
 
     private Logger logger = LoggerFactory.getLogger(SuperVisor.class);
 
@@ -34,14 +32,14 @@ public class SuperVisorController {
     @GetMapping
     public ResponseEntity<?> supervisor(){
         Map<String, Object> response = new HashMap<>();
-        this.logger.debug("inica consulta");
+        this.logger.debug("inica consulta para supervisor");
         try{
-            List<SuperVisor> superVisor =  this.iSuperVisorImpl.findAll();
+            List<SuperVisor> superVisor =  this.iSuperVisorSerImpl.findAll();
             if(superVisor == null && superVisor.isEmpty()){
                 logger.warn("No existe registro de entidad");
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }else {
-                logger.info("se ejecuta la consulta");
+                logger.info("se ejecuta la consulta para supervisor");
                 return new ResponseEntity<List<SuperVisor>>(superVisor, HttpStatus.OK);
             }
         }catch (CannotCreateTransactionException e){
@@ -68,11 +66,12 @@ public class SuperVisorController {
         }
         try{
             SuperVisor superVisor = new SuperVisor();
-            superVisor.setNombre(value.getNombre());
-            superVisor.setApellido(value.getApellido());
-            superVisor.setEmail(value.getEmail());
-            superVisor.setIdSupervisor(value.getIdSupervisor());
-            this.iSuperVisorImpl.save(superVisor);
+            superVisor.setId_supervisor(value.getId_supervisor());
+            superVisor.setNombre_super(value.getNombre_super());
+            superVisor.setApellido_super(value.getApellido_super());
+            superVisor.setEmail_super(value.getEmail_super());
+            superVisor.setId_region(value.getId_region());
+            this.iSuperVisorSerImpl.save(superVisor);
             logger.info("Se acaba de agregar nuevo supervisor");
             response.put("mensaje", "Una nuevo supervisor se ingreso");
             response.put("Supervisor", superVisor);
@@ -93,12 +92,12 @@ public class SuperVisorController {
     public ResponseEntity<?> delete(@PathVariable String idSupervisor){
         Map<String, Object> response = new HashMap<>();
         try{
-            SuperVisor superVisor = this.iSuperVisorImpl.findById(idSupervisor);
+            SuperVisor superVisor = this.iSuperVisorSerImpl.findById(idSupervisor);
             if(superVisor == null){
                 response.put("mensaje","el id ".concat(idSupervisor).concat("no existe"));
                 return new ResponseEntity<Map<String,Object>>(response, HttpStatus.NOT_FOUND);
             }else {
-                this.iSuperVisorImpl.delete(superVisor);
+                this.iSuperVisorSerImpl.delete(superVisor);
                 response.put("mensaje","el id con el id".concat(idSupervisor).concat("fue eliminado "));
                 response.put("listado", superVisor);
                 logger.info("El id fue eliminada con exito");

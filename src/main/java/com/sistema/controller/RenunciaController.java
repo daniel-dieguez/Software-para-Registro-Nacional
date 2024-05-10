@@ -1,8 +1,6 @@
 package com.sistema.controller;
 
-import com.sistema.dao.IRenunciaDAO;
-import com.sistema.dao.Services.IRegionServImpl;
-import com.sistema.dao.Services.IRenunciaImpl;
+import com.sistema.dao.Services.IRenunciaServImpl;
 import com.sistema.modals.modal.Region;
 import com.sistema.modals.modal.Renuncia;
 import jakarta.validation.Valid;
@@ -16,32 +14,32 @@ import org.springframework.transaction.CannotCreateTransactionException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
+@RestController
+@RequestMapping(value = "/renuncia")
 public class RenunciaController {
-    @RestController
-    @RequestMapping(value = "/renuncia")
-    public class RegionController {
+
 
         @Autowired
-        private IRenunciaImpl iRenunciaImp;
+        private IRenunciaServImpl iRenunciaImp;
 
         private Logger logger = LoggerFactory.getLogger(Region.class);
 
         @GetMapping
         public ResponseEntity<?> renuncia() {
             Map<String, Object> response = new HashMap<>();
-            this.logger.debug("inica consulta");
+            this.logger.debug("inica consulta en renuncia");
             try {
                 List<Renuncia> renuncias = this.iRenunciaImp.findAll();
                 if (renuncias == null && renuncias.isEmpty()) {
                     logger.warn("No existe registro de entidad");
                     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
                 } else {
-                    logger.info("se ejecuta la consulta");
+                    logger.info("se ejecuta la consulta para renuncia");
                     return new ResponseEntity<List<Renuncia>>(renuncias, HttpStatus.OK);
                 }
             } catch (CannotCreateTransactionException e) {
@@ -67,11 +65,15 @@ public class RenunciaController {
                 return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
             }
             try {
+                Date fechaRecibida = value.getFecha();
+                if (fechaRecibida == null) {
+                    response.put("mensaje", "Fecha es un campo obligatorio");
+                    return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+                }
                 Renuncia renuncia = new Renuncia();
-                renuncia.setIdVendedor(value.getIdVendedor());
-                renuncia.setIdRenuncia(value.getIdRenuncia());
-                renuncia.setFecha(renuncia.getIdVendedor());
-                renuncia.setMotivo(value.getMotivo());
+                renuncia.setId_renuncia(value.getId_renuncia());
+                renuncia.setId_vendedor(value.getId_vendedor());
+                renuncia.setFecha(fechaRecibida);
                 this.iRenunciaImp.save(renuncia);
                 logger.info("Se acaba de agregar nueva renuncia");
                 response.put("mensaje", "Una nueva region se ingreso");
@@ -132,4 +134,4 @@ public class RenunciaController {
 
         }
     }
-}
+

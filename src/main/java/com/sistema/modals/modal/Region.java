@@ -13,15 +13,15 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Table(name = "Region")
+@Table(name = "region")
 @Entity
 public class Region implements Serializable {
 
     @Id
-    @Column (name = "idRegion")
-    private int idRegion;
-    @Column (name = "Nombre")
-    private int Nombre;
+    @Column (name = "id_region")
+    private int id_region;
+    @Column (name = "nombre_region")
+    private String nombre_region;
 
 
 

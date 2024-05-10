@@ -1,6 +1,7 @@
 package com.sistema.controller;
 
 import com.sistema.dao.Services.IRegionServImpl;
+import com.sistema.modals.entities.RegionDTO;
 import com.sistema.modals.modal.Region;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -30,14 +31,14 @@ public class RegionController {
     @GetMapping
     public ResponseEntity<?> region(){
         Map<String, Object> response = new HashMap<>();
-        this.logger.debug("inica consulta");
+        this.logger.debug("inica consulta de region");
         try{
             List<Region> region =  this.iRegionServImp.findAll();
             if(region == null && region.isEmpty()){
                 logger.warn("No existe registro de entidad");
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }else {
-                logger.info("se ejecuta la consulta");
+                logger.info("se ejecuta la consulta de region");
                 return new ResponseEntity<List<Region>>(region, HttpStatus.OK);
             }
         }catch (CannotCreateTransactionException e){
@@ -64,8 +65,8 @@ public class RegionController {
         }
         try{
             Region region = new Region();
-            region.setIdRegion(value.getIdRegion());
-            region.setNombre(value.getNombre());
+            region.setId_region(value.getId_region());
+            region.setNombre_region(value.getNombre_region());
             this.iRegionServImp.save(region);
             logger.info("Se acaba de agregar nueva region");
             response.put("mensaje", "Una nueva region se ingreso");
@@ -82,6 +83,43 @@ public class RegionController {
         }
 
     }
+
+    @PutMapping("{id_region}")
+    public ResponseEntity<?>update(@Valid @RequestBody RegionDTO value, BindingResult result, @PathVariable String id_region){
+        Map<String, Object> response = new HashMap<>();
+        if(result.hasErrors()){
+            List<String> errores = result.getFieldErrors().stream().map(error -> error.getDefaultMessage()).collect(Collectors.toList());
+            response.put("eorrres", errores);
+            logger.info("Se encotraron errores en la peticion de region ");
+            return new ResponseEntity<Map<String,Object>>(response, HttpStatus.BAD_REQUEST);
+        }
+        try{
+            Region region = this.iRegionServImp.findById(id_region);
+            if(region == null){
+                response.put("mensaje", "el nuevo listado con el id".concat(id_region).concat("no existe"));
+                return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
+            }else {
+                region.setNombre_region();
+                listadoNota.setNotas(value.getNotas());
+                this.iListadoNotasServices.save(listadoNota);
+                response.put("mensaje","la nueva nota fue actualizado");
+                response.put("listado", listadoNota);
+                logger.info("La nota fue actualizada con exito ");
+                return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+            }
+
+        }catch (CannotCreateTransactionException e){
+            response = this.getTransactionExepcion(response, e);
+            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.SERVICE_UNAVAILABLE);
+
+        }catch (DataAccessException e){
+            response = this.getDataAccessException(response, e);
+            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.SERVICE_UNAVAILABLE);
+
+        }
+    }
+
+
 
     @DeleteMapping("/{idRegion}")
     public ResponseEntity<?> delete(@PathVariable String idRegion){

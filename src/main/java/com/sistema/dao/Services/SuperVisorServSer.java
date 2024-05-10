@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class SuperVisorServ implements ISuperVisorImpl{
+public class SuperVisorServSer implements ISuperVisorSerImpl {
 
     @Autowired
     private ISupervisorDAO iSupervisorDAO;

@@ -35,7 +35,7 @@ public class SuperVisorController {
         this.logger.debug("inica consulta para supervisor");
         try{
             List<SuperVisor> superVisor =  this.iSuperVisorSerImpl.findAll();
-            if(superVisor == null && superVisor.isEmpty()){
+            if(superVisor == null || superVisor.size() == 0){
                 logger.warn("No existe registro de entidad");
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }else {
@@ -52,6 +52,8 @@ public class SuperVisorController {
         }
 
     }
+
+    /*
 
 
     @PostMapping
@@ -70,7 +72,7 @@ public class SuperVisorController {
             superVisor.setNombre_super(value.getNombre_super());
             superVisor.setApellido_super(value.getApellido_super());
             superVisor.setEmail_super(value.getEmail_super());
-            superVisor.setId_region(value.getId_region());
+            superVisor.setRegion(value.getRegion());
             this.iSuperVisorSerImpl.save(superVisor);
             logger.info("Se acaba de agregar nuevo supervisor");
             response.put("mensaje", "Una nuevo supervisor se ingreso");
@@ -115,7 +117,7 @@ public class SuperVisorController {
         }
     }
 
-
+*/
 
 
 

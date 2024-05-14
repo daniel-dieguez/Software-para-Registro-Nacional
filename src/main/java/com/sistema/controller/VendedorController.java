@@ -36,7 +36,7 @@ public class VendedorController {
         this.logger.debug("inica consulta para vendedor");
         try{
             List<Vendedor> vendedors =  this.iVendedorServ.findAll();
-            if(vendedors == null && vendedors.isEmpty()){
+            if(vendedors == null || vendedors.size() == 0){
                 logger.warn("No existe registro de entidad");
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }else {
@@ -54,6 +54,7 @@ public class VendedorController {
 
     }
 
+    /*
 
     @PostMapping
     public ResponseEntity<?> create(@Valid @RequestBody Vendedor value, BindingResult result){
@@ -71,8 +72,8 @@ public class VendedorController {
             vendedor.setNombre_vendedor(value.getNombre_vendedor());
             vendedor.setApellido_vendedor(value.getApellido_vendedor());
             vendedor.setEmail_vendedor(value.getEmail_vendedor());
-            vendedor.setId_supervisor(vendedor.getId_supervisor());
-            vendedor.setId_region(value.getId_region());
+            vendedor.setSuperVisor(value.getSuperVisor());
+            vendedor.setRegion(value.getRegion());
             this.iVendedorServ.save(vendedor);
             logger.info("Se acaba de agregar nuevo vendedor");
             response.put("mensaje", "Una nuevo vendedor se ingreso");
@@ -117,7 +118,7 @@ public class VendedorController {
         }
     }
 
-
+*/
 
 
 

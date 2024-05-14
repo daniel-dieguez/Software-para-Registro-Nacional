@@ -1,15 +1,13 @@
 package com.sistema.modals.modal;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -28,8 +26,21 @@ public class Vendedor implements Serializable {
     private String apellido_vendedor;
     @Column(name = "email_vendedor")
     private String email_vendedor;
-    @Column(name = "id_supervisor")
-    private int id_supervisor;
-    @Column(name = "id_region")
-    private int id_region;
+
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_supervisor",referencedColumnName = "id_supervisor")
+    private SuperVisor superVisor;
+
+
+    /*@ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_region", referencedColumnName = "id_region")
+    private Region region;*/ //SI TUITLIZO ESTE ME MOSTRARA LA REGION ADEMAS DE
+
+
+
+
+
+
+
 }

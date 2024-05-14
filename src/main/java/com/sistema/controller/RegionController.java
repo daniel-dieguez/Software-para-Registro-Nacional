@@ -34,7 +34,7 @@ public class RegionController {
         this.logger.debug("inica consulta de region");
         try{
             List<Region> region =  this.iRegionServImp.findAll();
-            if(region == null && region.isEmpty()){
+            if(region == null || region.size() == 0){
                 logger.warn("No existe registro de entidad");
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }else {
@@ -52,7 +52,7 @@ public class RegionController {
 
     }
 
-
+/*
     @PostMapping
     public ResponseEntity<?> create(@Valid @RequestBody Region value, BindingResult result){
         Map<String, Object> response = new HashMap<>();
@@ -84,6 +84,7 @@ public class RegionController {
 
     }
 
+    /*
     @PutMapping("{id_region}")
     public ResponseEntity<?>update(@Valid @RequestBody RegionDTO value, BindingResult result, @PathVariable String id_region){
         Map<String, Object> response = new HashMap<>();
@@ -121,6 +122,8 @@ public class RegionController {
 
 
 
+
+
     @DeleteMapping("/{idRegion}")
     public ResponseEntity<?> delete(@PathVariable String idRegion){
         Map<String, Object> response = new HashMap<>();
@@ -148,7 +151,7 @@ public class RegionController {
         }
     }
 
-
+    */
 
 
 

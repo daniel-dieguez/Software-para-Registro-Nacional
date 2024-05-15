@@ -21,8 +21,8 @@ public class RegionService implements IRegionServImpl{
     }
 
     @Override
-    public Region findById(String idRegion) {
-        return this.iRegionDao.findById(idRegion).orElse(null);
+    public Region findById(String id_region) {
+        return this.iRegionDao.findById(id_region).orElse(null);
     }
 
     @Override

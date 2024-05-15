@@ -52,7 +52,7 @@ public class RegionController {
 
     }
 
-/*
+
     @PostMapping
     public ResponseEntity<?> create(@Valid @RequestBody Region value, BindingResult result){
         Map<String, Object> response = new HashMap<>();
@@ -84,7 +84,7 @@ public class RegionController {
 
     }
 
-    /*
+
     @PutMapping("{id_region}")
     public ResponseEntity<?>update(@Valid @RequestBody RegionDTO value, BindingResult result, @PathVariable String id_region){
         Map<String, Object> response = new HashMap<>();
@@ -97,14 +97,14 @@ public class RegionController {
         try{
             Region region = this.iRegionServImp.findById(id_region);
             if(region == null){
-                response.put("mensaje", "el nuevo listado con el id".concat(id_region).concat("no existe"));
+                response.put("mensaje", "la region con el id".concat(id_region).concat("no existe"));
                 return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
             }else {
-                region.setNombre_region();
-                listadoNota.setNotas(value.getNotas());
-                this.iListadoNotasServices.save(listadoNota);
-                response.put("mensaje","la nueva nota fue actualizado");
-                response.put("listado", listadoNota);
+                region.setNombre_region(value.getNombre_region());
+
+                this.iRegionServImp.save(region);
+                response.put("mensaje","la region fue actualizado");
+                response.put("listado", region);
                 logger.info("La nota fue actualizada con exito ");
                 return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
             }
@@ -151,7 +151,7 @@ public class RegionController {
         }
     }
 
-    */
+
 
 
 

@@ -20,17 +20,15 @@ public class Region implements Serializable {
     @Id
     @Column (name = "id_region")
     private int id_region;
-    @Column (name = "nombre_region")
+
+    @Column(name = "nombre_region")
     private String nombre_region;
+
 
     @OneToMany(mappedBy = "region", fetch = FetchType.LAZY)
     @JsonIgnore
     @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
     private List<SuperVisor> superVisors;
-
-
-
-
 
 
 

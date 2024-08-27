@@ -1,6 +1,7 @@
 package com.sistema.dao.Services;
 
-import com.sistema.dao.IRegionDao;
+import com.sistema.dao.implement.IRegionServImpl;
+import com.sistema.dao.repository.IRegionDao;
 import com.sistema.modals.modal.Region;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class RegionService implements IRegionServImpl{
+public class RegionService implements IRegionServImpl {
 
     @Autowired
     private IRegionDao iRegionDao;

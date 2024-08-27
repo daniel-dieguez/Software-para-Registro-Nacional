@@ -1,10 +1,8 @@
 package com.sistema.controller;
 
 
-import com.sistema.dao.Services.IVendedorServImpl;
-import com.sistema.modals.modal.Region;
+import com.sistema.dao.implement.IVendedorServImpl;
 import com.sistema.modals.modal.Vendedor;
-import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +10,11 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.CannotCreateTransactionException;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/Vendedor")

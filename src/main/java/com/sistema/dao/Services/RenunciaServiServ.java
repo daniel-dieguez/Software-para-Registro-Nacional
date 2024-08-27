@@ -1,6 +1,7 @@
 package com.sistema.dao.Services;
 
-import com.sistema.dao.IRenunciaDAO;
+import com.sistema.dao.implement.IRenunciaServImpl;
+import com.sistema.dao.repository.IRenunciaDAO;
 import com.sistema.modals.modal.Renuncia;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

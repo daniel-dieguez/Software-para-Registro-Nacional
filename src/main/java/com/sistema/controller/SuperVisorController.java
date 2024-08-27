@@ -1,7 +1,10 @@
 package com.sistema.controller;
 
-import com.sistema.dao.Services.ISuperVisorSerImpl;
+import com.sistema.dao.Services.SuperVisorServSer;
+import com.sistema.dao.implement.ISuperVisorSerImpl;
+import com.sistema.modals.entities.SupervisoDTO;
 import com.sistema.modals.modal.SuperVisor;
+import com.sistema.modals.modal.Vendedor;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +28,9 @@ public class SuperVisorController {
 
     @Autowired
     private ISuperVisorSerImpl iSuperVisorSerImpl;
+
+    @Autowired
+    private SuperVisorServSer superVisorServSer;
 
     private Logger logger = LoggerFactory.getLogger(SuperVisor.class);
 
@@ -53,7 +59,6 @@ public class SuperVisorController {
 
     }
 
-    /*
 
 
     @PostMapping
@@ -90,6 +95,44 @@ public class SuperVisorController {
 
     }
 
+    @PutMapping("{id_supervisor}")
+    public ResponseEntity<?>update(@Valid @RequestBody SupervisoDTO value, BindingResult result, @PathVariable String id_supervisor){
+        Map<String, Object> response = new HashMap<>();
+        if(result.hasErrors()){
+            List<String> errores = result.getFieldErrors().stream().map(error -> error.getDefaultMessage()).collect(Collectors.toList());
+            response.put("eorrres", errores);
+            logger.info("Se encotraron errores en la peticion de supervisor ");
+            return new ResponseEntity<Map<String,Object>>(response, HttpStatus.BAD_REQUEST);
+        }
+        try{
+            SuperVisor superVisor = this.iSuperVisorSerImpl.findById(Integer.parseInt(id_supervisor));
+            if(superVisor == null){
+                response.put("mensaje", "la region con el id".concat(id_supervisor).concat("no existe"));
+                return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
+            }else {
+
+                superVisor.setNombre_super(value.getNombre_super());
+                superVisor.setApellido_super(value.getApellido_super());
+                this.iSuperVisorSerImpl.save(superVisor);
+                response.put("mensaje","El supervisor fue actualizado");
+                response.put("listado", superVisor);
+                logger.info("El supervisor fue actualizada con exito ");
+                return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+            }
+
+        }catch (CannotCreateTransactionException e){
+            response = this.getTransactionExepcion(response, e);
+            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.SERVICE_UNAVAILABLE);
+
+        }catch (DataAccessException e){
+            response = this.getDataAccessException(response, e);
+            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.SERVICE_UNAVAILABLE);
+
+        }
+    }
+
+    /*
+
     @DeleteMapping("/{idVendedor}")
     public ResponseEntity<?> delete(@PathVariable String idSupervisor){
         Map<String, Object> response = new HashMap<>();
@@ -118,6 +161,20 @@ public class SuperVisorController {
     }
 
 */
+
+    @GetMapping("/{idSuperVisor}/vendedores")
+    public ResponseEntity<List<Vendedor>> VendedoresySupervisores(@PathVariable int idSuperVisor){
+        Map<String, Object> response = new HashMap<>();
+        List<Vendedor> vendedors  = superVisorServSer.vendedorYSupervisor(idSuperVisor);
+        if (vendedors == null || vendedors.isEmpty()) {
+            logger.info("No se encontraron vendedores para el supervisor con id " + idSuperVisor);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        logger.info("Se ejecuta la consulta para el supervisor con id " + idSuperVisor);
+        return ResponseEntity.ok(vendedors);
+    }
+
 
 
 

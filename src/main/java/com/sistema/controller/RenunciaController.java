@@ -1,6 +1,6 @@
 package com.sistema.controller;
 
-import com.sistema.dao.Services.IRenunciaServImpl;
+import com.sistema.dao.implement.IRenunciaServImpl;
 import com.sistema.modals.modal.Region;
 import com.sistema.modals.modal.Renuncia;
 import jakarta.validation.Valid;

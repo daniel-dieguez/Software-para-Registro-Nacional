@@ -1,4 +1,4 @@
-package com.sistema.dao;
+package com.sistema.dao.repository;
 
 import com.sistema.modals.modal.Region;
 import org.springframework.data.jpa.repository.JpaRepository;

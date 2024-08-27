@@ -1,10 +1,13 @@
 package com.sistema.dao.Services;
 
-import com.sistema.dao.ISupervisorDAO;
+import com.sistema.dao.implement.ISuperVisorSerImpl;
+import com.sistema.dao.repository.ISupervisorDAO;
 import com.sistema.modals.modal.SuperVisor;
+import com.sistema.modals.modal.Vendedor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -20,7 +23,7 @@ public class SuperVisorServSer implements ISuperVisorSerImpl {
     }
 
     @Override
-    public SuperVisor findById(String idSupervisor) {
+    public SuperVisor findById(int idSupervisor) {
         return this.iSupervisorDAO.findById(idSupervisor).orElse(null);
     }
 
@@ -34,4 +37,17 @@ public class SuperVisorServSer implements ISuperVisorSerImpl {
         this.iSupervisorDAO.delete(superVisor);
 
     }
+
+    public List<Vendedor> vendedorYSupervisor(int idSupervisor) {
+        SuperVisor superVisor = this.findById(idSupervisor);
+        if (superVisor != null) {
+            return superVisor.getVendedors();
+        } else {
+            return null;
+        }
+    }
+
+
+
+
 }

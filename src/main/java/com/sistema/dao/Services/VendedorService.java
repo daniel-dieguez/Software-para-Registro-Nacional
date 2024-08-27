@@ -1,7 +1,7 @@
 package com.sistema.dao.Services;
 
-import com.sistema.dao.IVendedorDAO;
-import com.sistema.modals.entities.VendedorDto;
+import com.sistema.dao.implement.IVendedorServImpl;
+import com.sistema.dao.repository.IVendedorDAO;
 import com.sistema.modals.modal.Vendedor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,7 +10,7 @@ import java.util.List;
 
 
 @Service
-public class VendedorService implements IVendedorServImpl{
+public class VendedorService implements IVendedorServImpl {
 
     @Autowired
     private IVendedorDAO iVendedorDAO;

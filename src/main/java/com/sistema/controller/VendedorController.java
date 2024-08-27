@@ -108,7 +108,7 @@ public class VendedorController {
 
     }
 
-    @DeleteMapping("/{idVendedor}")
+    @DeleteMapping("/delete/{idVendedor}")
     public ResponseEntity<?> delete(@PathVariable String idVendedor){
         Map<String, Object> response = new HashMap<>();
         try{
@@ -118,7 +118,7 @@ public class VendedorController {
                 return new ResponseEntity<Map<String,Object>>(response, HttpStatus.NOT_FOUND);
             }else {
                 this.iVendedorServImp.delete(vendedor);
-                response.put("mensaje","el id con el id".concat(idVendedor).concat("fue eliminado "));
+                response.put("mensaje","el id con el id".concat(idVendedor).concat( "  fue eliminado "));
                 response.put("listado", vendedor);
                 logger.info("El id fue eliminada con exito");
                 return new ResponseEntity<Map<String,Object>>(response, HttpStatus.OK);
@@ -133,6 +133,37 @@ public class VendedorController {
             return new ResponseEntity<Map<String, Object>>(response, HttpStatus.SERVICE_UNAVAILABLE);
 
         }
+    }
+
+    @PutMapping("/upDate/{idVendedor}")
+    public ResponseEntity<?>update(@Valid @RequestBody VendedorDto value, BindingResult result, @PathVariable String idVendedor){
+        Map<String, Object> response = new HashMap<>();
+        try{
+
+
+            Vendedor vendedor = this.iVendedorServImp.findById(String.valueOf(idVendedor));
+            vendedor.setNombre_vendedor(value.getNombre_vendedor());
+            vendedor.setApellido_vendedor(value.getApellido_vendedor());
+            vendedor.setEmail_vendedor(value.getEmail_vendedor());
+
+            this.iVendedorServImp.save(vendedor);
+
+
+            response.put("Mensaje", "los datos de vendedor se actualizaron");
+            response.put("El vendedor cambio de datos: ", vendedor);
+            logger.info("Se actualizo el dato del vendedor");
+            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+
+        }catch (CannotCreateTransactionException e){
+        response = this.getTransactionExepcion(response, e);
+        return new ResponseEntity<Map<String, Object>>(response, HttpStatus.SERVICE_UNAVAILABLE);
+
+    }catch (DataAccessException e){
+        response = this.getDataAccessException(response, e);
+        return new ResponseEntity<Map<String, Object>>(response, HttpStatus.SERVICE_UNAVAILABLE);
+
+    }
+
     }
 
 

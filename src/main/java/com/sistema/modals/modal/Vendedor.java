@@ -1,6 +1,7 @@
 package com.sistema.modals.modal;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,14 +34,9 @@ public class Vendedor implements Serializable {
     private SuperVisor superVisor;
 
 
-    /*@ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_region", referencedColumnName = "id_region")
-    private Region region;*/ //SI TUITLIZO ESTE ME MOSTRARA LA REGION ADEMAS DE
-
-
-
-
-
-
+    @JsonIgnore
+    private Region region; //SI TUITLIZO ESTE ME MOSTRARA LA REGION ADEMAS DE
 
 }

@@ -30,6 +30,11 @@ public class Region implements Serializable {
     @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
     private List<SuperVisor> superVisors;
 
+    @OneToMany(mappedBy = "region", fetch = FetchType.LAZY)
+    @JsonIgnore
+    @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
+    private List<Vendedor> vendedors;
+
 
 
 }

@@ -11,6 +11,12 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Data
 public class VendedorDto implements Serializable {
-    @NotEmpty(message = "Este campo debe de estar lleno ")
-    private String idVendedor;
+
+
+    private int id_vendedor;
+    private String nombre_vendedor;
+    private String apellido_vendedor;
+    private String email_vendedor;
+    private int id_supervisor;
+    private int id_region;
 }

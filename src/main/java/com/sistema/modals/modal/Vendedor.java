@@ -1,7 +1,10 @@
 package com.sistema.modals.modal;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.sistema.modals.modal.rrhh.Contrataciones;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -38,5 +41,12 @@ public class Vendedor implements Serializable {
     @JoinColumn(name = "id_region", referencedColumnName = "id_region")
     @JsonIgnore
     private Region region; //SI TUITLIZO ESTE ME MOSTRARA LA REGION ADEMAS DE
+
+
+
+    @OneToOne(mappedBy = "vendedor", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Contrataciones contrataciones;
+
 
 }

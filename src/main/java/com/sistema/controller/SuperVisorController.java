@@ -114,6 +114,7 @@ public class SuperVisorController {
                 superVisor.setNombre_super(value.getNombre_super());
                 superVisor.setApellido_super(value.getApellido_super());
                 this.iSuperVisorSerImpl.save(superVisor);
+
                 response.put("mensaje","El supervisor fue actualizado");
                 response.put("listado", superVisor);
                 logger.info("El supervisor fue actualizada con exito ");

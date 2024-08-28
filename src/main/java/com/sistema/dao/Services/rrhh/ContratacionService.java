@@ -22,8 +22,8 @@ public class ContratacionService implements IContratacionSerImp {
     }
 
     @Override
-    public Contrataciones findById(int id) {
-        return this.contratacionDAO.findById(id).orElse(null);
+    public Contrataciones findById(int id_contrataciones) {
+        return this.contratacionDAO.findById(id_contrataciones).orElse(null);
     }
 
     @Override

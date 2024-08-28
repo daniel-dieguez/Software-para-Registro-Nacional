@@ -1,8 +1,6 @@
 package com.sistema.modals.modal.rrhh;
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sistema.modals.modal.Vendedor;
 import jakarta.persistence.*;
@@ -22,7 +20,7 @@ public class Contrataciones implements Serializable {
 
     @Id
     @Column(name = "id_contrato")
-    private int id_Contrato;
+    private int id_contrato;
 
 
 
@@ -36,8 +34,5 @@ public class Contrataciones implements Serializable {
     @JoinColumn(name = "id_vendedor", referencedColumnName = "id_vendedor")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Vendedor vendedor;
-
-
-
 
 }

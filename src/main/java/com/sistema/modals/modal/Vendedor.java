@@ -44,7 +44,7 @@ public class Vendedor implements Serializable {
 
 
 
-    @OneToOne(mappedBy = "vendedor", fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "vendedor", fetch = FetchType.EAGER)
     @JsonIgnore
     private Contrataciones contrataciones;
 

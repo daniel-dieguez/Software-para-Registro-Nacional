@@ -9,7 +9,7 @@ public interface IContratacionSerImp {
 
 
     public List<Contrataciones> findAll();
-    public Contrataciones findById(int id);
+    public Contrataciones findById(int id_contrataciones);
     public Contrataciones save(Contrataciones contratacion);
     public void delete(Contrataciones contratacion);
 }

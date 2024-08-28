@@ -1,11 +1,15 @@
 package com.sistema.controller.rrhh;
 
 
+import com.sistema.dao.Services.VendedorService;
 import com.sistema.dao.Services.rrhh.ContratacionService;
 import com.sistema.dao.implement.rrhh.IContratacionSerImp;
 import com.sistema.dao.repository.rrhh.IContratacionDAO;
+import com.sistema.modals.entities.rrhh.ContratacionDTO;
 import com.sistema.modals.modal.Region;
+import com.sistema.modals.modal.Vendedor;
 import com.sistema.modals.modal.rrhh.Contrataciones;
+import jakarta.validation.Valid;
 import org.slf4j.ILoggerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,10 +18,10 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.CannotCreateTransactionException;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +33,10 @@ public class ContratacionController {
 
     @Autowired
     private IContratacionSerImp iContratacionSerImp;
+
+    @Autowired
+    private VendedorService vendedorService;
+
 
     private Logger logger = LoggerFactory.getLogger(Contrataciones.class);
 
@@ -50,8 +58,43 @@ public class ContratacionController {
             return new ResponseEntity<Map<String, Object>>(response, HttpStatus.SERVICE_UNAVAILABLE);
 
         }
+    }
+
+    @PostMapping("/newContrato")
+    public ResponseEntity<?> newContrato(@Valid  @RequestBody ContratacionDTO value, BindingResult result){
+        Map<String, Object> response = new HashMap<>();
+        try {
+
+            if (iContratacionSerImp.findById(value.getId_contrato()) != null) {
+                response.put("error", "El ID de contrato ya existe: " + value.getId_contrato());
+                return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+            }
+
+            Contrataciones contrataciones = new Contrataciones();
+            contrataciones.setId_contrato(value.getId_contrato());
+            contrataciones.setFecha(value.getFecha());
+            contrataciones.setDetalles(value.getDetalles());
+
+           Vendedor vendedor = vendedorService.findById(String.valueOf(value.getId_vendedor()));
+
+            contrataciones.setVendedor(vendedor);
+            this.iContratacionSerImp.save(contrataciones);
 
 
+            logger.info("se agrego nuevo vendedor");
+            response.put("mensaje", "Nuevo contrato para vendedor".concat(vendedor.getNombre_vendedor()));
+            response.put("Contrata", contrataciones);
+            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
+
+
+        }catch (CannotCreateTransactionException e){
+            response = this.getTransactionExepcion(response, e);
+            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.SERVICE_UNAVAILABLE);
+        }catch(DataAccessException e){
+            response = this.getDataAccessException(response, e);
+            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.SERVICE_UNAVAILABLE);
+
+        }
     }
 
     private Map<String, Object> getTransactionExepcion(Map<String,Object> response, CannotCreateTransactionException e){

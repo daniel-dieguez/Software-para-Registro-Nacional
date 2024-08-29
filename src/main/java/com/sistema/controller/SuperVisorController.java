@@ -95,7 +95,7 @@ public class SuperVisorController {
 
     }
 
-    @PutMapping("{id_supervisor}")
+    @PutMapping("/{id_supervisor}")
     public ResponseEntity<?>update(@Valid @RequestBody SupervisoDTO value, BindingResult result, @PathVariable String id_supervisor){
         Map<String, Object> response = new HashMap<>();
         if(result.hasErrors()){

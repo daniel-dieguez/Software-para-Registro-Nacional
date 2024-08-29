@@ -34,6 +34,7 @@ public class Vendedor implements Serializable {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_supervisor",referencedColumnName = "id_supervisor")
+    @JsonIgnoreProperties({"superVisor"})
     private SuperVisor superVisor;
 
 

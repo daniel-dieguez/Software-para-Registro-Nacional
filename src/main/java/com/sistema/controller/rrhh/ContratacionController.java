@@ -25,6 +25,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -87,6 +88,36 @@ public class ContratacionController {
             return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 
 
+        }catch (CannotCreateTransactionException e){
+            response = this.getTransactionExepcion(response, e);
+            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.SERVICE_UNAVAILABLE);
+        }catch(DataAccessException e){
+            response = this.getDataAccessException(response, e);
+            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.SERVICE_UNAVAILABLE);
+
+        }
+    }
+
+    @PutMapping("/upDate/{id_contrato}")
+    public ResponseEntity<?>update(@Valid @RequestBody ContratacionDTO value, BindingResult result, @PathVariable String id_contrato){
+        Map<String, Object> response = new HashMap<>();
+        if(result.hasErrors()){
+            List<String> errores = result.getFieldErrors().stream().map(error -> error.getDefaultMessage()).collect(Collectors.toList());
+            response.put("eorrres", errores);
+            logger.info("Se encotraron errores en la peticion de contrataciones ");
+            return new ResponseEntity<Map<String,Object>>(response, HttpStatus.BAD_REQUEST);
+        }
+        try {
+
+
+            Contrataciones contrataciones  = this.iContratacionSerImp.findById(Integer.parseInt(id_contrato));
+            contrataciones.setDetalles(value.getDetalles());
+            Vendedor vendedor = contrataciones.getVendedor();
+            this.iContratacionSerImp.save(contrataciones);
+            response.put("mensaje", contrataciones);
+            response.put("mensajecion", "se actualizo contrato del vendedor".concat(vendedor.getNombre_vendedor()));
+            logger.info("se actualizo nuevo contrato para vendedor");
+            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
         }catch (CannotCreateTransactionException e){
             response = this.getTransactionExepcion(response, e);
             return new ResponseEntity<Map<String, Object>>(response, HttpStatus.SERVICE_UNAVAILABLE);

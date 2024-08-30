@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sistema.modals.modal.rrhh.Contrataciones;
+import com.sistema.modals.modal.rrhh.Renuncia;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -45,9 +46,9 @@ public class Vendedor implements Serializable {
 
 
 
-    @OneToOne(mappedBy = "vendedor", fetch = FetchType.EAGER)
+    @OneToOne(mappedBy = "vendedor", fetch = FetchType.LAZY)
     @JsonIgnore
-    private Contrataciones contrataciones;
+    private Renuncia renuncia;
 
 
 }

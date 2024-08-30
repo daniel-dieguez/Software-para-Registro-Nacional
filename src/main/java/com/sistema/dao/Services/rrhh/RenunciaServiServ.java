@@ -1,15 +1,15 @@
-package com.sistema.dao.Services;
+package com.sistema.dao.Services.rrhh;
 
-import com.sistema.dao.implement.IRenunciaServImpl;
-import com.sistema.dao.repository.IRenunciaDAO;
-import com.sistema.modals.modal.Renuncia;
+import com.sistema.dao.implement.rrhh.IRenunicaSerImp;
+import com.sistema.dao.repository.rrhh.IRenunciaDAO;
+import com.sistema.modals.modal.rrhh.Renuncia;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class RenunciaServiServ implements IRenunciaServImpl {
+public class RenunciaServiServ implements IRenunicaSerImp {
 
     @Autowired
     private IRenunciaDAO iRenunciaDAO;
@@ -21,8 +21,8 @@ public class RenunciaServiServ implements IRenunciaServImpl {
     }
 
     @Override
-    public Renuncia findById(String idRenincia) {
-        return this.iRenunciaDAO.findById(idRenincia).orElse(null);
+    public Renuncia findById(int id_renuncia) {
+        return this.iRenunciaDAO.findById(id_renuncia).orElse(null);
     }
 
     @Override
@@ -33,6 +33,5 @@ public class RenunciaServiServ implements IRenunciaServImpl {
     @Override
     public void delete(Renuncia renuncia) {
         this.iRenunciaDAO.delete(renuncia);
-
     }
 }

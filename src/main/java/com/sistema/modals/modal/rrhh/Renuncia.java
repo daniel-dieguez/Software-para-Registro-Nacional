@@ -1,12 +1,12 @@
 package com.sistema.modals.modal.rrhh;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sistema.modals.modal.Vendedor;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.extern.apachecommons.CommonsLog;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -15,20 +15,17 @@ import java.util.Date;
 @NoArgsConstructor
 @Data
 @Entity
-@Table(name = "contrataciones")
-public class Contrataciones implements Serializable {
+@Table(name = "renuncia")
+public class Renuncia implements Serializable {
 
     @Id
-    @Column(name = "id_contrato")
-    private int id_contrato;
-
-
-
+    @Column(name = "id_renuncia")
+    public int id_renuncia;
     @Column(name = "fecha")
-    private Date fecha;
+    public Date  fecha;
+    @Column(name = "motivo")
+    public String motivo;
 
-    @Column(name = "detalles")
-    private String detalles;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_vendedor", referencedColumnName = "id_vendedor")
@@ -38,7 +35,7 @@ public class Contrataciones implements Serializable {
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_contrato", referencedColumnName = "id_contrato")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    private Renuncia renuncia;
+    private Contrataciones contratacion;
 
 
 }

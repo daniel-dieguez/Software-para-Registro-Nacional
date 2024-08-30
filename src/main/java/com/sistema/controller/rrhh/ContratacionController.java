@@ -128,6 +128,8 @@ public class ContratacionController {
         }
     }
 
+
+
     private Map<String, Object> getTransactionExepcion(Map<String,Object> response, CannotCreateTransactionException e){
         logger.error("Error al momento de conectarse a la base de datos");
         response.put("mensajee", "error al moneotno de contectarse a la");

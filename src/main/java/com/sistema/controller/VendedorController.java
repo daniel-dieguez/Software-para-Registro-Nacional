@@ -5,6 +5,7 @@ import com.sistema.dao.Services.RegionService;
 import com.sistema.dao.Services.SuperVisorServSer;
 import com.sistema.dao.implement.IRegionServImpl;
 import com.sistema.dao.implement.IVendedorServImpl;
+import com.sistema.dao.repository.IVendedorDAO;
 import com.sistema.modals.entities.VendedorDto;
 import com.sistema.modals.modal.Region;
 import com.sistema.modals.modal.SuperVisor;
@@ -27,6 +28,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/Vendedor")
+@CrossOrigin(origins = "*")
 public class VendedorController {
 
     @Autowired
@@ -37,6 +39,9 @@ public class VendedorController {
 
     @Autowired
     private RegionService regionService;
+
+    @Autowired
+    private IVendedorDAO iVendedorDAO;
 
     private Logger logger = LoggerFactory.getLogger(Vendedor.class);
 
@@ -65,6 +70,23 @@ public class VendedorController {
 
     }
 
+    @GetMapping("/vendedor/activos")
+    public ResponseEntity<?> VendedorActivos(){
+        Map<String, Object> response = new HashMap<>();
+        try {
+            List<Vendedor> vendedors = this.iVendedorDAO.findVendedoActivos();
+            logger.info("se ejecuta la consulta para vendedor activos ");
+            return new ResponseEntity<List<Vendedor>>(vendedors, HttpStatus.OK);
+
+        }catch (CannotCreateTransactionException e){
+            response = this.getTransactionExepcion(response, e);
+            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.SERVICE_UNAVAILABLE);
+        }catch(DataAccessException e){
+            response = this.getDataAccessException(response, e);
+            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.SERVICE_UNAVAILABLE);
+
+        }
+    }
 
 
     @PostMapping("/newWorker")
